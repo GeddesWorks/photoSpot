@@ -8,6 +8,7 @@ class GalleryModel {
   final DateTime? created;
   final String refName;
   final List<String> imageUrls;
+  final List<String> videoUrls;
 
   GalleryModel({
     required this.id,
@@ -16,6 +17,7 @@ class GalleryModel {
     required this.private,
     required this.refName,
     required this.imageUrls,
+    required this.videoUrls,
     this.phone,
     this.notes,
     this.created,
@@ -32,6 +34,7 @@ class GalleryModel {
       email: doc["email"] ?? '',
       private: doc["private"] ?? '',
       imageUrls: doc["imageUrls"] ?? '',
+      videoUrls: doc["videoUrls"] ?? '',
       phone: doc["phone"] ?? '',
       notes: doc["notes"] ?? [],
       created: doc["created"] != null

@@ -8,12 +8,14 @@ class GalleryController {
 
   Future<void> getGallerByRefName({required String refName}) async {
     GalleryModel result = GalleryModel(
-        id: '',
-        name: 'Error Occurred',
-        email: '',
-        private: false,
-        refName: refName,
-        imageUrls: []);
+      id: '',
+      name: 'Error Occurred',
+      email: '',
+      private: false,
+      refName: refName,
+      imageUrls: [],
+      videoUrls: [],
+    );
     try {
       await FirebaseFirestore.instance
           .collection("gallery")
@@ -22,12 +24,18 @@ class GalleryController {
           .then((value) {
         var element = value.docs.first;
         result = GalleryModel(
-            id: element.id,
-            name: element['name'],
-            email: element['email'],
-            private: element['private'],
-            refName: element['refName'],
-            imageUrls: List.from(element['imageUrls']));
+          id: element.id,
+          name: element['name'],
+          email: element['email'],
+          private: element['private'],
+          refName: element['refName'],
+          imageUrls: List.from(
+            element['imageUrls'],
+          ),
+          videoUrls: List.from(
+            element['videoUrls'],
+          ),
+        );
       });
       state.callSetState(() {
         state.model.gallery = result;
@@ -36,13 +44,14 @@ class GalleryController {
       print(e);
       state.callSetState(() {
         state.model.gallery = GalleryModel(
-            id: '',
-            name: 'Error Occurred',
-            email: '',
-            private: false,
-            refName: refName,
-            imageUrls: []);
-        ;
+          id: '',
+          name: 'Error Occurred',
+          email: '',
+          private: false,
+          refName: refName,
+          imageUrls: [],
+          videoUrls: [],
+        );
       });
     }
   }

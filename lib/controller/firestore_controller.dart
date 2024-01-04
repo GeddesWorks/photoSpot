@@ -15,13 +15,21 @@ class FirestoreController {
         .get()
         .then((value) {
       value.docs.forEach((element) {
-        result.add(GalleryModel(
+        result.add(
+          GalleryModel(
             id: element.id,
             name: element['name'],
             email: element['email'],
             private: element['private'],
             refName: element['refName'],
-            imageUrls: List.from(element['imageUrls'])));
+            imageUrls: List.from(
+              element['imageUrls'],
+            ),
+            videoUrls: List.from(
+              element['videoUrls'],
+            ),
+          ),
+        );
       });
     });
 

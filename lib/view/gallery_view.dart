@@ -1,8 +1,12 @@
+import 'dart:convert';
+import 'dart:html' as html;
+
 import 'package:flutter/material.dart';
 import 'package:photospot/controller/gallery_controller.dart';
 import 'package:photospot/model/gallery.dart';
 import 'package:photospot/model/galleryViewModel.dart';
 import 'package:photospot/view/web_image.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 class GalleryView extends StatefulWidget {
   const GalleryView({required this.refName, super.key});
@@ -57,11 +61,38 @@ class GalleryViewState extends State<GalleryView> {
             color: Colors.grey,
             borderRadius: BorderRadius.circular(0),
           ),
-          child: WebImage(
-            url: model.gallery.imageUrls[index],
+          child: Stack(
+            fit: StackFit.expand,
+            children: [
+              WebImage(
+                url: model.gallery.imageUrls[index],
+              ),
+              Positioned(
+                bottom: 5,
+                right: 5,
+                child: IconButton(
+                  icon: Icon(Icons.download),
+                  onPressed: () {
+                    downloadFileFromDownloadableLink(
+                        model.gallery.imageUrls[index],
+                        model.gallery.imageUrls[index]
+                            .split('/')
+                            .last
+                            .split('?')
+                            .first);
+                  },
+                ),
+              ),
+            ],
           ),
         );
       },
     );
   }
+}
+
+void downloadFileFromDownloadableLink(String url, String fileName) {
+  html.AnchorElement anchorElement = html.AnchorElement(href: url);
+  anchorElement.download = fileName;
+  anchorElement.click();
 }
